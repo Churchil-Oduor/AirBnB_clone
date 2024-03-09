@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
 import time
+from models import storage
 
 
 class BaseModel:
@@ -10,6 +11,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
+            storage.new(self)
 
         else:
             del kwargs["__class__"]
@@ -29,6 +31,7 @@ class BaseModel:
         """saves the current date and time when updated"""
         time.sleep(1)
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """"creates and return a dictionary containing all

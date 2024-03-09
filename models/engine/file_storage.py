@@ -2,7 +2,6 @@
 from json import dump, load
 from models.base_model import BaseModel
 
-
 class FileStorage:
     """ Class for serializing and deserializing objects
     for persistent data storage"""

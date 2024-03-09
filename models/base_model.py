@@ -2,7 +2,6 @@
 from datetime import datetime, timedelta
 from uuid import uuid4
 import time
-from models import storage
 
 
 class BaseModel:
@@ -11,16 +10,16 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
-            storage.new(self)
+  #          storage.new(self)
 
         else:
             del kwargs["__class__"]
             for key, value in kwargs.items():
-
-                dateTimeObj = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                setattr(self, key, dateTimeObj)
-            else:
-                setattr(self, key, value)
+                if key == "created_at" or key == "updated_at":
+                    dateTimeObj = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                    setattr(self, key, dateTimeObj)
+                else:
+                    setattr(self, key, value)
 
     def __str__(self):
         """returns strig representation"""
@@ -31,7 +30,7 @@ class BaseModel:
         """saves the current date and time when updated"""
         time.sleep(1)
         self.updated_at = datetime.now()
-        storage.save()
+ #       storage.save()
 
     def to_dict(self):
         """"creates and return a dictionary containing all

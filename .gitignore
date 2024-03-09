@@ -1,3 +1,5 @@
-# all test files
-test*.py
+# all pycache files
+*.pyc
 
+# all .swp files
+*.swp

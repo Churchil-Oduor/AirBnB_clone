@@ -1,6 +1,4 @@
-#from models.engine.file_storage import FileStorage
-#from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
-#storage = FileStorage()
-#storage.reload()
-__all__ = ['base_model']
+storage = FileStorage()
+__all__ = ['base_model', 'storage']

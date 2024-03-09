@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from json import dump, load
-from models.base_model import BaseModel
+
 
 class FileStorage:
     """ Class for serializing and deserializing objects
@@ -16,21 +16,21 @@ class FileStorage:
     def new(self,obj):
         """sets in __objects dict the obj with key <obj class name>.id
         and object as value"""
-        FileStorage.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
+        FileStorage.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
     def save(self):
         """ Method serializes objects to JSON file"""
         temp_dict = {}
         for i, j in FileStorage.__objects.items():
-            temp_dict[i] = j.BaseModel.to_dict()
+            temp_dict[i] = j.to_dict()
             # Open JSON file for writing
-            with open(FileStorage.__file_path, "W", encoding="utf-8") as file_json:
+            with open(FileStorage.__file_path, "w", encoding="utf-8") as file_json:
                 dump(temp_dict, file_json)
                 
     def reload(self):
         """ Deserializes JSON file to objects"""
         try:
-            with open(FileStorage.__objects, encoding="utf-8") as str_json:
+            with open(FileStorage.__file_path, encoding="utf-8") as str_json:
                 deserial_jsonfile = load(str_json)
                 for obj_val in deserial_jsonfile.values():
                     class_name = obj_val["__class__"]

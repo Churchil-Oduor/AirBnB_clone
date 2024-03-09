@@ -3,3 +3,6 @@
 
 # all .swp files
 *.swp
+
+# any json file
+*.json

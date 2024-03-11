@@ -6,14 +6,18 @@ from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
-
+    """ Classs to handle the command interpreter
+    """
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
+        """ To quit from  the console
+        """
         return True
 
     def do_EOF(self, line):
-        """"Exits the Console"""
+        """"Exits the Console
+        """
         return True
 
     def do_create(self, arg):

@@ -35,26 +35,26 @@ class HBNBCommand(cmd.Cmd):
         Prints the string representation of an instance based
         on the class name and id.
         """
+        classes = ["BaseModel", "User"]
         storage = FileStorage()
-        objects = storage.__objects
-        classes = ["BaseModel"]
-        if arg:
-            if len(arg) == 2:
-                if arg[0] == "BaseModel":
-                    try:
-                        obj_key = "BaseModel."+str(arg[1])
-                        obj = objects[obj_key]
-                        print(obj)
-                    except:
-                        print("{}".format("** no instance found **"))
-                else:
-                    print("{}".format("** class doesn't exist **"))
-            else:
-                pass
-
-        else:
+        storage.reload()
+        reloaded_objs = storage.all()
+        # creating keys of the class
+        if len(arg):
+            # checking if no variable has been passed
             print("{}".format("** class name missing **"))
-
+        elif len(arg) == 2:
+            if arg[0] in classes:
+                obj_key = f"{arg[0]}.{arg[1]}"
+                if obj_key in reloaded_objs:
+                    obj = reloaded_obj[obj_key]
+                    print("{}".format(obj))
+                else:
+                    print("{}".format("** no instance found **"))
+            else:
+                print("{}".format("** class doesn't exist **"))
+        else:
+            print("{}".format("** instance id missing **"))
 
 
 if __name__ == '__main__':

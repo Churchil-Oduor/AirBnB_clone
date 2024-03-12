@@ -96,6 +96,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances
         based or not on the class name
         """
+        storage.reload()
         all_objects = storage.all()
         if arg:
             args = arg.split()

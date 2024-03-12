@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from json import dump, load
-#from models.user import User
 
 class FileStorage:
     """ Class for serializing and deserializing objects
@@ -20,23 +19,28 @@ class FileStorage:
 
     def save(self):
         """ Method serializes objects to JSON file"""
+        data = []
         temp_dict = {}
-        for i, j in FileStorage.__objects.items():
-            temp_dict[i] = j.to_dict()
-            # Open JSON file for writing
-            with open(FileStorage.__file_path, "a", encoding="utf-8") as file_json:
-                dump(temp_dict, file_json)
-                
+        for key, value in FileStorage.__objects.items():
+            temp_dict[key] = value.to_dict()
+            data.append(temp_dict)
+
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as file_json:
+            dump(data, file_json, indent=4)
+
+
     def reload(self):
         """ Deserializes JSON file to objects"""
         try:
-            with open(FileStorage.__file_path, encoding="utf-8") as str_json:
-                deserial_jsonfile = load(str_json)
-                for obj_val in deserial_jsonfile.values():
-                    class_name = obj_val["__class__"]
-                    # Valicate input to our dict for security & avoid unwanted values
+            with open(FileStorage.__file_path, "r", encoding="utf-8") as str_json:
+                loaded_list = load(str_json)
+                
+            from models.base_model import BaseModel
+            for item in loaded_list:
+                for obj in item.values():
+                    class_name = obj["__class__"]
+
                     if isinstance(class_name, str) and type(eval(class_name) == type):
-                        # Process inputs using eval to get the class name
-                        self.new(eval(class_name)(**obj_val))
+                        self.new(eval(class_name)(**obj))
         except FileNotFoundError:
             pass

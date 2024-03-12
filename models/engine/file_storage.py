@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from json import dump, load
+#from models.user import User
 
 class FileStorage:
     """ Class for serializing and deserializing objects
@@ -36,6 +37,12 @@ class FileStorage:
                 loaded_list = load(str_json)
                 
             from models.base_model import BaseModel
+            from models.user import User
+            from models.place import Place
+            from models.state import State
+            from models.city import City
+            from models.amenity import Amenity
+            from models.review import Review
             for item in loaded_list:
                 for obj in item.values():
                     class_name = obj["__class__"]

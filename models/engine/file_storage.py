@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from json import dump, load
-
+#from models.user import User
 
 class FileStorage:
     """ Class for serializing and deserializing objects
@@ -24,7 +24,7 @@ class FileStorage:
         for i, j in FileStorage.__objects.items():
             temp_dict[i] = j.to_dict()
             # Open JSON file for writing
-            with open(FileStorage.__file_path, "w", encoding="utf-8") as file_json:
+            with open(FileStorage.__file_path, "a", encoding="utf-8") as file_json:
                 dump(temp_dict, file_json)
                 
     def reload(self):

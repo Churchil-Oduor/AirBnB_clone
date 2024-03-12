@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 import cmd
 from models.base_model import BaseModel
-#from models.engine.file_storage import FileStorage
 from models import storage
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 """"this module holds the console program"""
 
 
@@ -10,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     """ Classs to handle the command interpreter
     """
     prompt = "(hbnb) "
-    classes = ["BaseModel"]
+    classes = ["BaseModel", "User", "Place", "State", "City", "Amenity", "Review"]
 
     def do_quit(self, arg):
         """ To quit from  the console
@@ -30,10 +35,9 @@ class HBNBCommand(cmd.Cmd):
         if arg:
             args = arg.split()
             if args[0] in self.classes:
-                if args[0] == "BaseModel":
-                    obj = BaseModel()
-                    obj.save()
-                    print("{}".format(obj.id))
+                obj = eval(f"{args[0]}()")
+                storage.save()
+                print("{}".format(obj.id))
             else:
                 print("{}".format("** class doesn't exist **"))
         else:
